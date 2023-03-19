@@ -1,27 +1,28 @@
-import useForm from './hooks/useForm'
-import Input from './components/Input'
 import Card from './components/Card'
-import Button from './components/Button'
 import "./App.css"
+import { useState } from 'react'
+import Formulario from './components/Formulario'
 
 function App() {
-  
-  const [form, handleChange] = useForm({
-    name: "",
-    lastname:"",
-    email:""
-  })
+  const [users, setUsers] = useState([])
+ 
+  const handleSubmit = usuario => {
+    setUsers([...users, usuario])
+  }
 
   return (
     <div className='App'>
-      <Card>
-        <form>
-          <Input label="Nombre" type="text" name="name" value={form.name} onChange={handleChange} />
-          <Input label="Apellido" type="text" name="lastname" value={form.lastname} onChange={handleChange} />
-          <Input label="Email" type="email" name="email" value={form.email} onChange={handleChange} />
-          <Button>Enviar</Button>
-        </form>
-      </Card>
+        <div className='container'>
+        <Card>
+          <Formulario handleSubmit={handleSubmit}/>
+        </Card>
+        <Card>
+          <h2>Usuarios:</h2>
+          {users.map(user => 
+            <li key={user.name}>{`${user.name} ${user.email}`}</li>
+          )}
+        </Card>
+      </div>
     </div>
   )
 }
